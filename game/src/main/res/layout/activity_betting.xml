@@ -20,6 +20,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/wallet_amount"
             android:text="@string/initial_wallet_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/current_bet"
             android:text="@string/initial_bet_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -49,15 +51,19 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/bet1"
             android:text="@string/bet1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="bet1"/>
         <Button
+            android:id="@+id/bet5"
             android:text="@string/bet5"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="bet5"/>
 
     </LinearLayout>
 
@@ -67,15 +73,19 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/bet25"
             android:text="@string/bet25"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="bet25"/>
         <Button
+            android:id="@+id/bet100"
             android:text="@string/bet100"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="bet100"/>
 
     </LinearLayout>
 
@@ -86,7 +96,8 @@
             android:text="@string/clear_bet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:onClick="clearBet"/>
         <Button
             android:text="@string/submit_bet"
             android:layout_width="fill_parent"
