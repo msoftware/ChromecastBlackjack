@@ -115,11 +115,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/button_brown"
             android:onClick="clearBet"/>
         <Button
             android:text="@string/submit_bet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_brown"
             android:layout_weight="1"/>
 
         </LinearLayout>
