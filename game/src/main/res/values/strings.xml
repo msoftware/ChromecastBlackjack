@@ -10,5 +10,11 @@
     <string name="initial_wallet_amount">$1000</string>
     <string name="current_bet">Current Bet:</string>
     <string name="initial_bet_amount">$0</string>
+    <string name="bet1">Bet $1</string>
+    <string name="bet5">Bet $5</string>
+    <string name="bet25">Bet $25</string>
+    <string name="bet100">Bet $100</string>
+    <string name="clear_bet">Clear Bet</string>
+    <string name="submit_bet">Submit Bet</string>
 
 </resources>
