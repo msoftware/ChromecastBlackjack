@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ChromeCast Blackjack</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_betting">Place Your Bet</string>
+    <string name="start_chromecast">Start ChromeCast</string>
+    <string name="wallet">Wallet:</string>
+    <string name="initial_wallet_amount">$1000</string>
+    <string name="current_bet">Current Bet:</string>
+    <string name="initial_bet_amount">$0</string>
+
+</resources>
