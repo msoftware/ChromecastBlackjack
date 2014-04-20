@@ -21,6 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
+
 public class MainActivity extends ActionBarActivity {
 
     private MediaRouter mediaRouter;
@@ -30,6 +32,8 @@ public class MainActivity extends ActionBarActivity {
     private GoogleApiClient apiClient;
 
     private static String TAG="MainActivity";
+    private boolean applicationStarted;
+    private String sessionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,14 +142,25 @@ public class MainActivity extends ActionBarActivity {
                                         public void onResult(Cast.ApplicationConnectionResult result) {
                                             Status status = result.getStatus();
                                             if (status.isSuccess()) {
-                                                ApplicationMetadata applicationMetadata =
-                                                        result.getApplicationMetadata();
-                                                String sessionId = result.getSessionId();
+                                                ApplicationMetadata applicationMetadata = result.getApplicationMetadata();
+                                                sessionId = result.getSessionId();
                                                 String applicationStatus = result.getApplicationStatus();
                                                 boolean wasLaunched = result.getWasLaunched();
+                                                Log.d(TAG,
+                                                        "application name: "
+                                                                + applicationMetadata
+                                                                .getName()
+                                                                + ", status: "
+                                                                + applicationStatus
+                                                                + ", sessionId: "
+                                                                + sessionId
+                                                                + ", wasLaunched: "
+                                                                + wasLaunched);
 
+                                                applicationStarted = true;
                                                 createCustomMessageChannel();
                                             } else {
+                                                Log.e(TAG, "Application could not launch");
                                                 teardown();
                                             }
                                         }
@@ -165,7 +180,6 @@ public class MainActivity extends ActionBarActivity {
 
     private void reconnectChannels() {
         Log.e(TAG, "reconnectChannels");
-
     }
 
     private class ConnectionFailedListener implements GoogleApiClient.OnConnectionFailedListener {
@@ -175,31 +189,82 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void createCustomMessageChannel() {
+    private BlackjackChannel blackjackChannel;
 
+    private void createCustomMessageChannel() {
+        blackjackChannel = new BlackjackChannel();
+        try {
+            Cast.CastApi.setMessageReceivedCallbacks(apiClient, blackjackChannel.getNamespace(), blackjackChannel);
+        } catch (IOException e) {
+            Log.e(TAG, "Exception while creating channel", e);
+        }
+    }
+
+    private void sendMessage(String message) {
+        if (apiClient == null || blackjackChannel == null) {
+            return;
+        }
+        try {
+            Cast.CastApi.sendMessage(apiClient, blackjackChannel.getNamespace(), message)
+                    .setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status result) {
+                                    if (!result.isSuccess()) {
+                                        Log.e(TAG, "Sending message failed");
+                                    }
+                                }
+                            });
+        } catch (Exception e) {
+            Log.e(TAG, "Exception while sending message", e);
+        }
     }
 
     private void teardown() {
         Log.e(TAG, "teardown");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.e(TAG, "onOptionsItemSelected");
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (apiClient != null) {
+            if (applicationStarted) {
+                if (apiClient.isConnected()) {
+                    try {
+                        Cast.CastApi.stopApplication(apiClient, sessionId);
+                        if (blackjackChannel != null) {
+                            Cast.CastApi.removeMessageReceivedCallbacks(
+                                    apiClient,
+                                    blackjackChannel.getNamespace());
+                            blackjackChannel = null;
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception while removing channel", e);
+                    }
+                    apiClient.disconnect();
+                }
+                applicationStarted = false;
+            }
+            apiClient = null;
         }
-        return super.onOptionsItemSelected(item);
+        selectedDevice = null;
+        waitingForReconnect = false;
+        sessionId = null;
     }
 
+    private int i = 0;
     public void startChromeCast(View view) {
         Log.d(TAG, "startChromeCast");
-        Intent intent = new Intent(this, BettingActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, BettingActivity.class);
+        //startActivity(intent);
+        sendMessage("derp " + i);
+        i++;
+    }
+
+    class BlackjackChannel implements Cast.MessageReceivedCallback {
+        public String getNamespace() {
+            return getResources().getString(R.string.namespace);
+        }
+
+        @Override
+        public void onMessageReceived(CastDevice castDevice, String namespace,
+                                      String message) {
+            Log.d(TAG, "onMessageReceived: " + message);
+        }
     }
 }
