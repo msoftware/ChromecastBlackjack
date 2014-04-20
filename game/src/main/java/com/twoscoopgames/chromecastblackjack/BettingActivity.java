@@ -34,22 +34,13 @@ public class BettingActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.betting, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+        ChromeCastAdapter.getInstance(this).setMediaRouteButtonSelector(mediaRouteMenuItem);
+
+        return true;
     }
 
     public void bet1(View view) {
@@ -81,5 +72,9 @@ public class BettingActivity extends ActionBarActivity {
 
     public void clearBet(View view) {
         bet(-bet);
+    }
+
+    public void submitBet(View view) {
+        ChromeCastAdapter.getInstance(this).sendMessage("bet " + bet);
     }
 }
