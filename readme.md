@@ -6,7 +6,7 @@
 
 ##### Table Colors:
 * green: 
-<span style="width:16px;height:16px;display:inline-block;background:#4d8059;"></span> 4d8059 
+<span width="16" height="16" bgcolor="#4d8059"></span> 4d8059 
 <span style="width:16px;height:16px;display:inline-block;background:#3b6447;"></span> 3b6447
 <span style="width:16px;height:16px;display:inline-block;background:#30563d;"></span> 30563d
 * brown:
