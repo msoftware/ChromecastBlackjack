@@ -33,12 +33,33 @@ public class MainActivity extends ActionBarActivity {
 
         walletAmount = (TextView) findViewById(R.id.wallet_amount);
         currentBet = (TextView) findViewById(R.id.current_bet);
-        bet1 = (Button)findViewById(R.id.bet1);
-        bet5 = (Button)findViewById(R.id.bet5);
-        bet25 = (Button)findViewById(R.id.bet25);
-        bet100 = (Button)findViewById(R.id.bet100);
 
         View.OnTouchListener listener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //v.setTranslationY(-10);
+                    v.setTop(v.getTop() - 5);
+                    v.setBottom(v.getBottom() + 5);
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    //v.setTranslationY(10);
+                    v.setTop(v.getTop() + 5);
+                    v.setBottom(v.getBottom() - 5);
+                }
+                return false;
+            }
+        };
+
+        bet1 = (Button)findViewById(R.id.bet1);
+        bet1.setOnTouchListener(listener);
+        bet5 = (Button)findViewById(R.id.bet5);
+        bet5.setOnTouchListener(listener);
+        bet25 = (Button)findViewById(R.id.bet25);
+        bet25.setOnTouchListener(listener);
+        bet100 = (Button)findViewById(R.id.bet100);
+        bet100.setOnTouchListener(listener);
+
+        listener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -49,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         };
+
         Button clearBet = (Button)findViewById(R.id.clear_bet);
         clearBet.setOnTouchListener(listener);
         Button submitBet = (Button)findViewById(R.id.submit_bet);

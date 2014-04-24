@@ -68,17 +68,17 @@
 
             <Button
                 android:id="@+id/bet1"
-                android:text="@string/bet1"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:background="@drawable/chip_1"
                 android:onClick="bet1"/>
             <Button
                 android:id="@+id/bet5"
-                android:text="@string/bet5"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:background="@drawable/chip_5"
                 android:onClick="bet5"/>
 
         </LinearLayout>
@@ -94,17 +94,17 @@
 
             <Button
                 android:id="@+id/bet25"
-                android:text="@string/bet25"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:background="@drawable/chip_25"
                 android:onClick="bet25"/>
             <Button
                 android:id="@+id/bet100"
-                android:text="@string/bet100"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:background="@drawable/chip_100"
                 android:onClick="bet100"/>
 
         </LinearLayout>
